@@ -4,3 +4,6 @@ postgres:
 lint:
 	black .
 	isort .
+
+reapply-migrations:
+	yoyo reapply -c yoyo.ini

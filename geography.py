@@ -1,6 +1,5 @@
 """Module for Geographic based queries"""
 
-import contextlib
 import geograpy
 
 
@@ -12,19 +11,17 @@ def find_immigrants(family: list):
     country than where they were born
     """
     immigrants = []
-    new_family_list = []
     for person in family:
-        with contextlib.suppress(Exception):
-            if person["death_place"]:
-                person["death_country"] = geograpy.get_geoPlace_context(
-                    text=person["death_place"]
-                ).countries[0]
-        with contextlib.suppress(Exception):
-            if person["birth_place"]:
-                person["birth_country"] = geograpy.get_geoPlace_context(
-                    text=person["birth_place"]
-                ).countries[0]
+        person["death_country"] = find_country["death_place"]
+        person["birth_country"] = find_country["birth_place"]
         if person["birth_country"] != person["death_country"]:
             immigrants.append(person)
-        new_family_list.append(person)
-    return (immigrants, new_family_list)
+    return immigrants
+
+
+def find_country(place=None):
+    """Find the country of a place"""
+    if place:
+        return geograpy.get_geoPlace_context(text=place).countries[0]
+    else:
+        return None

@@ -5,8 +5,9 @@ import re
 
 
 def serialize_date(value):
+    """Serialize a date"""
     if not value:
-        return None
+        return (None, None)
     if isinstance(value, ged4py.date.DateValuePhrase):
 
         new_value = value.phrase
