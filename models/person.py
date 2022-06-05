@@ -20,6 +20,10 @@ person_columns = (
     "is_alive",
     "is_immigrant",
     "children",
+    "birth_country",
+    "death_country",
+    "birth_place",
+    "death_place",
 )
 
 
@@ -32,14 +36,22 @@ class Person:
             self.id = id
             self.tags = self.read()
         if gedcom_record:
-            self.id = gedcom_record["id"]
-            if not isinstance(self.read(), psycopg2.extras.RealDictRow):
+
+            if isinstance(gedcom_record, Person):
+                self.id = gedcom_record.id
+            else:
+                self.id = gedcom_record["id"]
+            try:
+                human = self.read()
+            except Exception:
+                human = None
+            if not isinstance(human, psycopg2.extras.RealDictRow):
                 try:
                     self.tags = individual.create_tags(gedcom_record)
                 except AttributeError:
                     self.tags = gedcom_record
             else:
-                self.tags = self.read()
+                self.tags = human
         if self.tags:
             for column in person_columns:
                 setattr(self, column, self.tags[column])
@@ -85,7 +97,7 @@ class Person:
         sql = database.dynamic_update(update_dictionary)
 
         with database.dict_cursor() as cursor:
-            cursor.execute(sql, update_dictionary)
+            cursor.execute(sql, {"id": self.id, **update_dictionary})
             return cursor.fetchone()
 
     def delete(self):

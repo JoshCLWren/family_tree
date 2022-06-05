@@ -22,10 +22,10 @@ def dict_cursor():
     return conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
 
-def dynamic_update(update_dictionary):
+def dynamic_update(update_dictionary, table_name="people"):
     """Update the database with the values in the dictionary."""
 
-    sql = "UPDATE people SET " + ",".join(
+    sql = f"UPDATE {table_name} SET " + ",".join(
         [f"{column} = %({column})s" for column in update_dictionary]
     )
 

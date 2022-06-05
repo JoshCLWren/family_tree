@@ -84,12 +84,12 @@ def _human_dict(
     birth_country=None,
 ):
     is_immigrant = False
-    if death_country is None:
+    if death_country is None and death_place is not None:
         try:
             death_country = geography.find_country(death_place)
         except IndexError:
             death_country = None
-    if birth_country is None:
+    if birth_country is None and birth_place is not None:
         try:
             birth_country = geography.find_country(birth_place)
         except IndexError:

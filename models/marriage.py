@@ -21,7 +21,7 @@ class Marriage:
 
     def __init__(self, id=None, marriage_values=None):
         """Initialize a marriage."""
-
+        self.id = None
         if id:
             self.id = id
         if marriage_values:
@@ -32,7 +32,9 @@ class Marriage:
                 if column == "id":
                     continue
                 setattr(self, column, None)
-        print(f"Marriage: {self.id} initialized.")
+        if self.id:
+
+            print(f"Marriage: {self.id} initialized.")
 
     def read(self, id=None, spouse_id=None):
         """Read a marriage from the db."""
@@ -108,9 +110,9 @@ class Marriage:
     def update(self, update_dictionary):
         """Update a marriage from an FAM record."""
 
-        sql = database.dynamic_update(update_dictionary)
+        sql = database.dynamic_update(update_dictionary, "traditional_marriages")
 
-        with database.dict_cursor(sql) as cursor:
+        with database.dict_cursor() as cursor:
             cursor.execute(sql, update_dictionary)
 
             return cursor.fetchone()
