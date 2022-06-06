@@ -92,7 +92,9 @@ def find_immigrants(family_list):
 
         person_to_update = Person(id=human["id"])
         person_to_update.update(update_dictionary=update_dict)
+    import pdb
 
+    pdb.set_trace()
     return immigrants
 
 
