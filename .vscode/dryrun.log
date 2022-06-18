@@ -1,0 +1,5 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/joshwren/Code/playground/wren_tree'
+yoyo apply -c yoyo.ini
+make: Leaving directory `/Users/joshwren/Code/playground/wren_tree'
+ 
