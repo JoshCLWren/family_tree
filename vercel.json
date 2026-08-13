@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "",
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "site/*.txt", "use": "@vercel/static" }
+  ]
+}
