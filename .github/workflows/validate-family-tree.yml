@@ -20,7 +20,9 @@ jobs:
             site/tree-data-prefix.txt \
             site/tree-data-0.txt \
             site/tree-data-gap-1.txt \
-            site/tree-data-1.txt \
+            site/tree-data-1a.txt \
+            site/tree-data-1b.txt \
+            site/tree-data-1c.txt \
             site/tree-data-gap-2.txt \
             site/tree-data-2.txt \
             site/tree-data-tail-a.txt \
