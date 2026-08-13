@@ -16,22 +16,32 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cat \
-            site/tree-data-prefix.txt \
-            site/tree-data-0.txt \
-            site/tree-data-gap-1.txt \
-            site/tree-data-1a.txt \
-            site/tree-data-1b.txt \
-            site/tree-data-1c.txt \
-            site/tree-data-gap-2.txt \
-            site/tree-data-2.txt \
-            site/tree-data-tail-a.txt \
-            site/tree-data-tail-b.txt \
-            | base64 --decode | gzip --decompress > /tmp/tree.json
           python - <<'PY'
-          import json
-          with open('/tmp/tree.json', encoding='utf-8') as f:
-              tree = json.load(f)
+          import base64, gzip, json
+          paths = [
+              'site/tree-data-prefix.txt',
+              'site/tree-data-0.txt',
+              'site/tree-data-gap-1.txt',
+              'site/tree-data-1a1.txt',
+              'site/tree-data-1a21.txt',
+              'site/tree-data-1a22-exact.b64',
+              'site/tree-data-1a23.txt',
+              'site/tree-data-1a3.txt',
+              'site/tree-data-1b.txt',
+              'site/tree-data-1c.txt',
+              'site/tree-data-gap-2.txt',
+              'site/tree-data-2.txt',
+              'site/tree-data-tail-a.txt',
+              'site/tree-data-tail-b.txt',
+          ]
+          parts = []
+          for path in paths:
+              text = open(path, encoding='utf-8').read().strip()
+              if path.endswith('.b64'):
+                  text = base64.b64decode(text).decode('ascii')
+              parts.append(text)
+          payload = gzip.decompress(base64.b64decode(''.join(parts)))
+          tree = json.loads(payload)
           people = len(tree['people'])
           families = len(tree['families'])
           assert people == 1260, people
