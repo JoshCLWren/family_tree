@@ -32,6 +32,17 @@ main{max-width:1380px;margin:auto;padding:22px 24px 28px}
 .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
 .btn{border:1px solid var(--line);background:rgba(255,253,248,.9);border-radius:999px;padding:8px 13px;cursor:pointer;color:var(--accent);font-family:ui-sans-serif,system-ui,sans-serif;font-size:.88rem;font-weight:650}
 .btn:hover{background:var(--chip);border-color:#aebcae}
+.story-dialog{width:min(760px,calc(100% - 24px));max-height:calc(100dvh - 24px);padding:0;border:1px solid var(--line);border-radius:22px;background:var(--panel);color:var(--ink);box-shadow:0 24px 80px rgba(26,38,29,.28)}
+.story-dialog::backdrop{background:rgba(27,35,29,.62);backdrop-filter:blur(3px)}
+.story-head{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:start;gap:20px;padding:22px 24px 18px;background:rgba(255,253,248,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+.story-head h2{font-size:clamp(1.55rem,4vw,2.25rem);margin:.25rem 0 0;letter-spacing:-.025em}
+.story-close{flex:0 0 auto;width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:var(--panel);color:var(--accent);cursor:pointer;font:700 1.1rem ui-sans-serif,system-ui,sans-serif}
+.story-close:hover{background:var(--chip)}
+.story-body{padding:24px clamp(20px,5vw,48px) 44px;font-size:clamp(1rem,2.2vw,1.1rem);line-height:1.72}
+.story-body p{margin:0 0 1.35em}
+.story-body .story-opening{font-size:1.18em;color:var(--accent)}
+.story-body .story-coda{margin-top:2.5rem;padding-top:1.75rem;border-top:1px solid var(--line)}
+.story-body .salt{font-size:1.15em;font-style:italic;text-align:center;margin:2.2rem auto 0;color:var(--accent)}
 .tree-shell{background:rgba(255,253,248,.92);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px}
 .tree-heading{padding:18px 22px 15px;border-bottom:1px solid var(--line);display:flex;align-items:end;justify-content:space-between;gap:18px}
 .tree-heading h2{margin:2px 0 0;font-size:1.35rem}
@@ -151,6 +162,7 @@ footer{max-width:1380px;margin:0 auto;padding:0 24px 28px;color:var(--muted);fon
     <button class="btn" id="homeBtn">⌂ Start at Josh</button>
     <button class="btn" id="backBtn">← Back</button>
     <button class="btn" id="expandBtn">Expand all branches</button>
+    <button class="btn" id="storyBtn">Read our family story</button>
     <button class="btn" onclick="window.print()">Print this person</button>
   </div>
   <section class="tree-shell">
@@ -169,6 +181,111 @@ footer{max-width:1380px;margin:0 auto;padding:0 24px 28px;color:var(--muted);fon
     <section class="card hero" id="personCard"></section>
     <aside class="card side" id="sideCard"></aside>
   </div>
+  <dialog class="story-dialog" id="storyDialog">
+    <div class="story-head">
+      <div><div class="eyebrow">The legend in our family tree</div><h2>Here is the story our family tree tells</h2></div>
+      <button class="story-close" id="storyClose" aria-label="Close family story">×</button>
+    </div>
+    <article class="story-body">
+      <p class="story-opening">Long before any of us were Wrens in Oklahoma, one branch of Mom’s family was present at the very beginning of English America.</p>
+
+      <p>In April 1608, our ancestor William Cantrill sailed into Jamestown aboard the <em>Phoenix</em>. Jamestown had been founded only the year before, and most of its original settlers had already died from disease, hunger, violence, and some truly terrible planning.</p>
+
+      <p>William arrived with the First Supply while Captain John Smith was still leading the colony. He was classified as a gentleman and was associated with the Virginia Company that financed the settlement. On June 2, 1608, William joined a small party accompanying John Smith on his exploration of the Chesapeake Bay. There were only about fourteen men on the expedition. They sailed into rivers and coastal areas that the English had never mapped, met the Native nations already living there, and recorded the geography of the Chesapeake. A place called Cantrill’s Point was named for William during the journey.</p>
+
+      <p>Pocahontas was already part of the Jamestown story. She and John Smith had met during the previous winter, and she continued moving between the Powhatan world and the struggling English colony. William therefore lived at Jamestown with John Smith while Pocahontas was part of its daily life. According to the tree, William Cantrill was our eleventh-great-grandfather.</p>
+
+      <p>The Cantrell family eventually returned to England or continued through relatives there, but another Richard Cantrill brought the family back into the American story during the founding of Pennsylvania.</p>
+
+      <p>Richard was living in Philadelphia by 1689. Philadelphia was barely a city then. William Penn had only recently planned its streets, and much of the place still had to be physically constructed. Richard was a brickmaker, which meant he helped build one of America’s first major cities out of the ground.</p>
+
+      <p>Colonial records placed him near Third Street and later gave him a lease on more than three acres between Fifth and Sixth Streets. The lease required him to construct a substantial brick house, fence the property, and plant an orchard containing at least eighty healthy apple trees.</p>
+
+      <p>Richard’s wife, Dorothy Jones, had crossed the Atlantic when she was about ten years old. Dorothy was born in Wales in 1672. Her parents, Ellis and Jane Jones, were Welsh Quakers seeking a new life in William Penn’s colony. Her father reportedly served as one of Penn’s millers.</p>
+
+      <p>In 1682, the family boarded the <em>Submission</em> and set out across the Atlantic. The voyage was rough, crowded, and repeatedly battered by storms. Instead of delivering them safely to Pennsylvania, the weather pushed the ship off course and forced it to land in Maryland. Ten-year-old Dorothy and her family then had to travel north into the newly established colony.</p>
+
+      <p>Richard may have arrived aboard the <em>Welcome</em>, the same ship that carried William Penn himself. Whether they shared that particular voyage or merely arrived during the same founding period, Richard and Dorothy became part of the first generation of Philadelphia.</p>
+
+      <p>They married around 1693. Richard was not a Quaker, so Dorothy married him “out of meeting,” without the approval of her religious community. Dorothy apparently drifted even farther from her strict Quaker upbringing. One old family account says she attended masquerade balls and developed a taste for Philadelphia’s social life. So one of our earliest American grandmothers may have crossed the ocean as a Quaker refugee and then promptly become the family party girl.</p>
+
+      <p>Richard made bricks, built his house, planted his eighty apple trees, and raised a family with Dorothy. Their descendants gradually moved south from Pennsylvania and Delaware through the Carolinas and Georgia.</p>
+
+      <p>That line eventually produced one of the most interesting and admirable people in our tree, Dennis Candin “Candy” Cantrell. Dennis was born in South Carolina in 1821 and became our fourth-great-grandfather. By the Civil War, he was living in Alabama, deep inside the Confederacy. But Dennis did not fight for the Confederacy.</p>
+
+      <p>He joined the First Alabama Cavalry of the United States Army. The regiment was composed largely of Southern Unionists, men who lived in Alabama but refused to abandon the United States. Their decision could turn neighbors and relatives against them. Capture could mean imprisonment, execution, or retaliation against their families.</p>
+
+      <p>Dennis’s regiment fought during the Atlanta Campaign and later accompanied Sherman’s March to the Sea. Sherman specifically valued the First Alabama Cavalry because its men understood the southern terrain and symbolized the fact that not every white Southerner supported the Confederacy.</p>
+
+      <p>After the war, Dennis settled in Winston County, Alabama. Winston County became famous for its Unionist population and its resistance to Confederate authority. Dennis died there in 1891.</p>
+
+      <p>The family continued through Dennis’s son John, his grandson James, and his great-grandson William Henry Cantrell. William Henry moved from Alabama to Oklahoma and married Sarah Jane Pierce. Their son was our grandfather, Jimmie William Cantrell.</p>
+
+      <p>Jimmie was born in Eufaula in 1926. Eufaula stood within the historic Muscogee Nation, and Mom always said Native blood came through her father’s family. The story survived even though the name of the Native ancestor and the exact nation faded from memory.</p>
+
+      <p>That ancestry may have entered through Jimmie’s mother, Sarah Jane Pierce. Sarah was born in Oklahoma around 1900, while the Dawes Commission was recording families of the Cherokee, Choctaw, Chickasaw, Muscogee, and Seminole Nations. Several of Jimmie’s older grandmothers survive in the records only under married names or fragmentary identities. They appear as Martha, Kizzie, Taylor, and other incomplete names. Somewhere among those barely remembered women may be the person behind Mom’s story.</p>
+
+      <p>Jimmie’s family moved from Eufaula to Fort Cobb. There he met Ellawyze Pearl Morrow, our maternal grandmother.</p>
+
+      <p>Ellawyze came from another enormous southern family. Her people included the Morrows, Marrows, Iveys, Cooks, Davises, Brasselles, Williamses, Andersons, Bibbs, and Weemses. For generations they moved from the Carolinas through Georgia and Alabama.</p>
+
+      <p>Ellawyze’s father, James Washington Marrow Jr., was born in Georgia around 1885. He and his family joined the great movement west and reached Texola, Oklahoma, by 1930. Texola sits at the extreme western edge of Oklahoma, pressed against the Texas border. Route 66 had only recently opened when the family lived there. Within a few years, drought, collapsing farms, and the Great Depression would send thousands of Oklahoma families west toward California.</p>
+
+      <p>Our family made a different choice. Instead of following Route 66 out of Oklahoma, they turned back toward the center of the state. They passed through Grady County and settled around Minco, Hinton, Fort Cobb, and Anadarko.</p>
+
+      <p>Ellawyze was born near Minco in 1933 and grew up as one of roughly sixteen children. If it sometimes feels like we are related to half of Caddo County, Ellawyze’s family may be the reason. Jimmie and Ellawyze married, joined the Cantrell and Morrow stories, and became Mom’s parents.</p>
+
+      <p>Dad’s family carried the Wren name through another long journey. The Wrens moved through Virginia, the Carolinas, Louisiana, Texas, and Oklahoma. Our great-grandfather Hardy Arlander Wren was born in Texas in 1895. During the First World War, he crossed the Atlantic in the opposite direction from our colonial ancestors and served overseas in France.</p>
+
+      <p>In January 1919, Hardy departed from Bordeaux and returned to the United States through Hoboken, New Jersey. He eventually settled in Oklahoma and became part of the Wren family we actually knew.</p>
+
+      <p>Farther back, our Wren line joins the family of Sir Christopher Wren. Christopher Wren was one of the greatest engineering minds in English history. He worked in architecture, astronomy, anatomy, mathematics, mechanics, physics, and surveying. After the Great Fire of London destroyed much of the city in 1666, he helped rebuild it.</p>
+
+      <p>He designed St. Paul’s Cathedral and more than fifty London churches. He also helped establish the Royal Society and worked alongside some of the most important scientific thinkers of his time. Christopher was not our direct grandfather. Our branch and his branch separated several generations earlier. According to the family tree, Sir Christopher Wren was our third cousin eleven times removed.</p>
+
+      <p>I like to think that some tiny piece of his engineering brain survived in the family. Maybe the talent for staring at a complicated system, deciding it was built wrong, and rebuilding the entire thing is genetic.</p>
+
+      <p>Our paternal grandmother, Sara Beth Powell, adds one more legendary connection. Sara was born in Columbia, South Carolina, in 1942. Her Powell ancestors lived in Bladen and Columbus counties, North Carolina, before moving into South Carolina.</p>
+
+      <p>The line reaches a man known as John William “Chufi Hadjo” Powell. He was an English or Scottish trader who lived among the Muscogee people. He formed a family with Polly Coppinger, a Muscogee woman connected to influential Creek leaders. Polly had a son named Billy Powell.</p>
+
+      <p>Billy grew up among the Muscogee and later moved with his family into Florida, where they became part of the Seminole people. As an adult, Billy became known as Osceola.</p>
+
+      <p>Osceola emerged as the most famous Seminole resistance leader of the nineteenth century. He opposed the United States government’s attempt to force the Seminole people from Florida into Indian Territory. He fought during the Second Seminole War and became a symbol of resistance to removal.</p>
+
+      <p>In 1837, American soldiers captured Osceola when he came forward under a flag of truce to negotiate. He was imprisoned at Fort Moultrie in South Carolina, where he died in 1838. According to the connections in our tree, Osceola belonged to the extended Powell family that eventually produced our grandmother Sara.</p>
+
+      <p>That gives our family story an almost impossible sweep.</p>
+
+      <p>One ancestor helped John Smith explore the Chesapeake while Pocahontas moved between Jamestown and the Powhatan people. A ten-year-old Welsh Quaker girl survived a stormy Atlantic crossing and helped establish a family in William Penn’s new colony. Her husband made bricks, built a house, and planted eighty apple trees in early Philadelphia.</p>
+
+      <p>Their descendants moved south, where Dennis “Candy” Cantrell rejected the Confederacy and fought for the Union from inside Alabama. His family carried a memory of Native ancestry into Oklahoma.</p>
+
+      <p>Another branch traveled from the Carolinas through Georgia and Alabama, reached Route 66 during the Depression, and chose to build a life in Oklahoma rather than continue west. The Wren side sent a soldier to France during the First World War and may connect us to Sir Christopher Wren, the man who helped rebuild London. The Powell side may connect us to Osceola, who resisted the forced removal of the Seminole people.</p>
+
+      <p>That is the legend our HTML family tree tells.</p>
+
+      <div class="story-coda">
+        <p>Now for the giant grain of salt.</p>
+
+        <p>The closer generations are supported by censuses, military records, obituaries, deeds, and other identifiable documents. Jimmie and Ellawyze, Dennis Cantrell’s Union service, Dorothy Jones’s Atlantic crossing, Richard’s Philadelphia property, Hardy’s wartime journey, and the family’s movements through the South and into Oklahoma all have meaningful documentary support.</p>
+
+        <p>The celebrity-level connections become increasingly shaky. The historical William Cantrill really was at Jamestown and reportedly explored with John Smith, but the chain connecting him to our Philadelphia Cantrell family depends on several English Richards who may have been mistakenly combined.</p>
+
+        <p>The family tree presents a relationship to Sir Christopher Wren, but that distant branch still needs stronger documentation at each generation.</p>
+
+        <p>Most seriously, the Osceola story appears to depend on two Powell men being merged. Our ancestor Felix Kenneth Powell was probably the son of Captain Absalom Powell, not John William “Chufi Hadjo” Powell. If that correction holds, the apparent Osceola connection disappears.</p>
+
+        <p>Mom’s claim of Native ancestry through Jimmie remains family oral history. The current tree neither proves nor disproves it because several women and family relationships on that side remain unidentified.</p>
+
+        <p>So none of us should use this story to claim tribal citizenship, announce that Pocahontas came to Thanksgiving, or start designing a family crest.</p>
+
+        <p>But family history is a combination of records, memories, mistakes, and stories that survive because somebody considered them worth repeating. Even if the tree has attached us to the wrong Richard or William somewhere, the documented parts still tell a remarkable story about migration, survival, conviction, war, work, and generations of people steadily moving toward the family we became.</p>
+
+        <p class="salt">Take the famous connections with serious doubt and the entire story with a grain of salt.<br><br>Considering our family, take it with the whole saltshaker.</p>
+      </div>
+    </article>
+  </dialog>
 </main>
 <footer>
   Built from an Ancestry GEDCOM 5.5.1 export. The original ZIP contained family-tree data but no actual media files, so photos are not displayed here. This viewer is one HTML file and works offline.
@@ -374,6 +491,10 @@ search.addEventListener("input",()=>{
 });
 document.addEventListener("click",e=>{if(!e.target.closest(".search-wrap")) results.style.display="none";});
 document.getElementById("homeBtn").addEventListener("click",()=>render(homeId));
+const storyDialog=document.getElementById("storyDialog");
+document.getElementById("storyBtn").addEventListener("click",()=>storyDialog.showModal());
+document.getElementById("storyClose").addEventListener("click",()=>storyDialog.close());
+storyDialog.addEventListener("click",e=>{if(e.target===storyDialog)storyDialog.close();});
 document.getElementById("expandBtn").addEventListener("click",()=>{
   fullTreeMode=!fullTreeMode;
   document.getElementById("expandBtn").textContent=fullTreeMode?"Show close family":"Expand all branches";
