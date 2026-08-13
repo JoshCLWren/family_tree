@@ -1,0 +1,64 @@
+name: Repair exact family tree HTML
+
+on:
+  push:
+    paths:
+      - '.github/workflows/repair-family-tree-html.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore exact mojibake source
+        run: git show aea46fbee5073ea07f8f80f744efaf19f10239f9:index.html > index.html
+      - name: Repair mojibake only
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          path = Path('index.html')
+          text = path.read_text(encoding='utf-8')
+
+          def repair(match):
+              run = match.group(0)
+              try:
+                  return run.encode('latin-1').decode('utf-8')
+              except (UnicodeEncodeError, UnicodeDecodeError):
+                  return run
+
+          fixed = re.sub(r'[^\x00-\x7f]+', repair, text)
+          path.write_text(fixed, encoding='utf-8')
+
+          bad = ('Â', 'â', 'â', 'ð', 'Ã')
+          remaining = [marker for marker in bad if marker in fixed]
+          if remaining:
+              raise SystemExit(f'Remaining mojibake markers: {remaining}')
+      - name: Remove temporary loader workaround
+        shell: python
+        run: |
+          from pathlib import Path
+          import json
+
+          standalone = Path('standalone.html')
+          if standalone.exists():
+              standalone.unlink()
+
+          config = Path('vercel.json')
+          data = json.loads(config.read_text())
+          data['builds'] = [b for b in data.get('builds', []) if b.get('src') != 'standalone.html']
+          config.write_text(json.dumps(data, indent=2) + '\n')
+      - name: Commit repaired HTML and remove workflow
+        run: |
+          git rm .github/workflows/repair-family-tree-html.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html standalone.html vercel.json || true
+          git commit -m 'Restore full family tree and repair mojibake'
+          git push
