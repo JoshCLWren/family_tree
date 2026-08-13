@@ -19,9 +19,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          url="https://family-tree-joshclwrens-projects.vercel.app"
+          url="https://family-tree-p60i0i7ok-joshclwrens-projects.vercel.app"
           ok=0
-          for attempt in $(seq 1 20); do
+          for attempt in $(seq 1 12); do
             if curl -fsSL --max-time 20 "$url" -o index.html.new; then
               if grep -q '<title>Wren Family Tree' index.html.new && \
                  grep -q 'Share-Safe Edition' index.html.new && \
@@ -50,5 +50,3 @@ jobs:
           git diff --cached --quiet && exit 0
           git commit -m "Publish share-safe Wren family tree viewer"
           git push
-
-# This second revision intentionally triggers the already-registered workflow.
