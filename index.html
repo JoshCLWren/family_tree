@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wren Family Tree · Share-Safe Edition</title>
+<style>
+:root {
+  --bg:#f4f0e8; --panel:#fffdf8; --ink:#28241f; --muted:#71685d; --line:#d8cec0;
+  --accent:#5f4937; --accent2:#8a6a50; --chip:#eee6db; --shadow:0 10px 30px rgba(59,45,33,.10);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:ui-serif,Georgia,Cambria,"Times New Roman",serif;background:var(--bg);color:var(--ink)}
+button,input{font:inherit}
+a{color:inherit}
+header{position:sticky;top:0;z-index:20;background:rgba(244,240,232,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.header-inner{max-width:1200px;margin:auto;padding:18px 22px 14px;display:grid;grid-template-columns:1fr minmax(260px,520px);gap:18px;align-items:center}
+.brand h1{font-size:clamp(1.45rem,3vw,2.15rem);margin:0;letter-spacing:-.025em}
+.brand p{margin:.3rem 0 0;color:var(--muted);font-size:.92rem}
+.search-wrap{position:relative}
+#search{width:100%;padding:12px 14px 12px 40px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);outline:none;box-shadow:0 2px 12px rgba(59,45,33,.05)}
+.search-icon{position:absolute;left:14px;top:11px;color:var(--muted)}
+.results{position:absolute;left:0;right:0;top:50px;max-height:410px;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);display:none}
+.result{padding:10px 12px;border-bottom:1px solid #eee7dc;cursor:pointer}
+.result:hover{background:#f7f1e8}
+.result small{display:block;color:var(--muted);margin-top:2px}
+main{max-width:1200px;margin:auto;padding:22px}
+.privacy{border:1px solid #c8b79f;background:#f0e6d7;border-radius:12px;padding:10px 13px;color:#594839;margin-bottom:18px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:.9rem}
+.privacy.full{background:#f6e9dc;border-color:#ddc0a5}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.btn{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:8px 12px;cursor:pointer;color:var(--accent)}
+.btn:hover{background:#f8f2e9}
+.grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(280px,.8fr);gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:20px}
+.hero{padding:24px}
+.eyebrow{font-family:ui-sans-serif,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);font-size:.72rem;font-weight:700}
+.person-name{font-size:clamp(2rem,5vw,3.6rem);line-height:.98;margin:.45rem 0 .55rem;letter-spacing:-.045em}
+.life{color:var(--muted);font-size:1.05rem}
+.sex{display:inline-block;margin-left:8px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:.75rem;background:var(--chip);padding:3px 7px;border-radius:99px;vertical-align:2px}
+.section{margin-top:22px}
+.section h2{font-size:1.1rem;margin:0 0 10px;padding-bottom:7px;border-bottom:1px solid var(--line)}
+.family-row{display:flex;gap:10px;flex-wrap:wrap}
+.person-chip{border:1px solid var(--line);background:#fbf8f2;border-radius:12px;padding:9px 11px;cursor:pointer;min-width:150px;max-width:100%}
+.person-chip:hover{border-color:#aa927a;background:#f5eee4}
+.person-chip strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.person-chip small{color:var(--muted)}
+.event{display:grid;grid-template-columns:100px 1fr;gap:12px;padding:9px 0;border-bottom:1px solid #eee8df}
+.event:last-child{border-bottom:0}
+.event-type{font-family:ui-sans-serif,system-ui,sans-serif;font-size:.78rem;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.06em}
+.event-main strong{font-weight:600}
+.event-main div{color:var(--muted);margin-top:2px}
+.note{white-space:pre-wrap;line-height:1.45;color:#514a42;background:#f8f3eb;border-radius:10px;padding:11px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:#f8f3eb;border-radius:12px;padding:14px}
+.stat b{display:block;font-size:1.65rem}
+.stat span{color:var(--muted);font-family:ui-sans-serif,system-ui,sans-serif;font-size:.78rem}
+.side h3{margin:0 0 10px;font-size:1rem}
+.ancestor-level{margin:10px 0 0}
+.ancestor-label{font-family:ui-sans-serif,system-ui,sans-serif;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.empty{color:var(--muted);font-style:italic}
+footer{max-width:1200px;margin:0 auto;padding:0 22px 28px;color:var(--muted);font-family:ui-sans-serif,system-ui,sans-serif;font-size:.78rem}
+@media(max-width:780px){
+  .header-inner{grid-template-columns:1fr;padding:14px}
+  main{padding:14px}
+  .grid{grid-template-columns:1fr}
+  .hero{padding:18px}
+  .event{grid-template-columns:82px 1fr}
+}
+@media print{
+  header,.toolbar,.privacy,footer{display:none!important}
+  body{background:white}
+  main{padding:0}
+  .grid{display:block}
+  .card{box-shadow:none;border:0}
+  .side{page-break-before:always}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <h1>Wren Family Tree · Share-Safe Edition</h1>
+      <p>1,260 people · 378 family groups · exported August 12, 2026</p>
+    </div>
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input id="search" autocomplete="off" placeholder="Search by name, place, or year…">
+      <div id="results" class="results"></div>
+    </div>
+  </div>
+</header>
+<main>
+  <div class="privacy">🔒 Share-safe edition: potentially living people are generalized and their personal details are hidden.</div>
+  <div class="toolbar">
+    <button class="btn" id="homeBtn">⌂ Start at Josh</button>
+    <button class="btn" id="backBtn">← Back</button>
+    <button class="btn" onclick="window.print()">Print this person</button>
+  </div>
+  <div class="grid">
+    <section class="card hero" id="personCard"></section>
+    <aside class="card side" id="sideCard"></aside>
+  </div>
+</main>
+<footer>
+  Built from an Ancestry GEDCOM 5.5.1 export. The original ZIP contained family-tree data but no actual media files, so photos are not displayed here. This is a static, share-safe viewer; potentially living people have their personal details generalized.
+</footer>
+<script>
+(async () => {
+  const dataFiles = ["site/tree-data-prefix.txt","site/tree-data-0.txt","site/tree-data-gap-1.txt","site/tree-data-1.txt","site/tree-data-gap-2.txt","site/tree-data-2.txt","site/tree-data-tail-a.txt","site/tree-data-tail-b.txt"];
+  const parts = await Promise.all(dataFiles.map(async path => {
+    const response = await fetch(path);
+    if (!response.ok) throw new Error(`Could not load ${path} (${response.status})`);
+    return (await response.text()).trim();
+  }));
+  const binary = atob(parts.join(""));
+  const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+  const decompressed = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"));
+  const TREE = JSON.parse(await new Response(decompressed).text());
+  const P = TREE.people, F = TREE.families;
+const historyStack = [];
+const homeId = TREE.meta.home_id && P[TREE.meta.home_id] ? TREE.meta.home_id : Object.keys(P)[0];
+
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+}
+function getParents(id) {
+  const p=P[id]; if(!p) return [];
+  const out=[];
+  for(const fid of p.famc||[]) {
+    const f=F[fid]; if(!f) continue;
+    if(f.husb && P[f.husb]) out.push(f.husb);
+    if(f.wife && P[f.wife]) out.push(f.wife);
+  }
+  return [...new Set(out)];
+}
+function getFamiliesAsSpouse(id) {
+  const p=P[id]; if(!p) return [];
+  return (p.fams||[]).map(fid=>F[fid]).filter(Boolean);
+}
+function chip(id, label="") {
+  const p=P[id]; if(!p) return "";
+  return `<button class="person-chip" data-id="${esc(id)}"><strong>${esc(p.name)}</strong><small>${esc(label || p.lifespan || "")}</small></button>`;
+}
+function formatEvent(ev) {
+  const bits=[];
+  if(ev.date) bits.push(`<strong>${esc(ev.date)}</strong>`);
+  if(ev.place) bits.push(`<div>${esc(ev.place)}</div>`);
+  if(ev.value) bits.push(`<div>${esc(ev.value)}</div>`);
+  return `<div class="event"><div class="event-type">${esc(ev.type)}</div><div class="event-main">${bits.join("") || '<span class="empty">No details recorded</span>'}</div></div>`;
+}
+function famEvent(f) {
+  const ev=(f.events||[]).find(e=>e.type==="Marriage");
+  if(!ev) return "";
+  return [ev.date,ev.place].filter(Boolean).join(" · ");
+}
+function ancestorLevels(id, maxDepth=4) {
+  let current=[id], seen=new Set([id]), levels=[];
+  for(let d=1; d<=maxDepth; d++) {
+    const next=[];
+    for(const x of current) for(const par of getParents(x)) if(!seen.has(par)) {seen.add(par);next.push(par);}
+    if(!next.length) break;
+    levels.push(next); current=next;
+  }
+  return levels;
+}
+function render(id, push=true) {
+  if(!P[id]) return;
+  if(push && location.hash && decodeURIComponent(location.hash.slice(1)) !== id) historyStack.push(decodeURIComponent(location.hash.slice(1)));
+  location.hash = encodeURIComponent(id);
+  const p=P[id], parents=getParents(id), fams=getFamiliesAsSpouse(id);
+  let spouseHtml="", childrenHtml="";
+  const childSet=new Set();
+  for(const f of fams) {
+    const spouse=(f.husb===id?f.wife:f.husb);
+    if(spouse && P[spouse]) spouseHtml += chip(spouse, famEvent(f) || P[spouse].lifespan);
+    for(const c of f.children||[]) if(P[c]) childSet.add(c);
+  }
+  for(const c of childSet) childrenHtml += chip(c);
+
+  const events=(p.events||[]).filter(e=>e.type!=="Event" || e.date || e.place || e.value);
+  const aliases=(p.aliases||[]).length ? `<div class="section"><h2>Also recorded as</h2><div>${p.aliases.map(x=>`<span class="sex">${esc(x)}</span>`).join(" ")}</div></div>` : "";
+  const notes=(p.notes||[]).length ? `<div class="section"><h2>Notes</h2>${p.notes.map(n=>`<div class="note">${esc(n)}</div>`).join("")}</div>` : "";
+
+  document.getElementById("personCard").innerHTML = `
+    <div class="eyebrow">Person record</div>
+    <h1 class="person-name">${esc(p.name)}</h1>
+    <div class="life">${esc(p.lifespan || "")} ${p.sex ? `<span class="sex">${p.sex==="M"?"Male":p.sex==="F"?"Female":esc(p.sex)}</span>`:""}</div>
+    ${aliases}
+    <div class="section"><h2>Parents</h2><div class="family-row">${parents.length?parents.map(x=>chip(x)).join(""):'<span class="empty">No parents recorded</span>'}</div></div>
+    <div class="section"><h2>Spouse / partner</h2><div class="family-row">${spouseHtml || '<span class="empty">No spouse recorded</span>'}</div></div>
+    <div class="section"><h2>Children</h2><div class="family-row">${childrenHtml || '<span class="empty">No children recorded</span>'}</div></div>
+    <div class="section"><h2>Life events</h2>${events.length?events.map(formatEvent).join(""):'<span class="empty">No life events recorded</span>'}</div>
+    ${notes}
+  `;
+
+  const levels=ancestorLevels(id,4);
+  const levelNames=["Parents","Grandparents","Great-grandparents","2× great-grandparents"];
+  document.getElementById("sideCard").innerHTML = `
+    <h3>Tree at a glance</h3>
+    <div class="stats">
+      <div class="stat"><b>${parents.length}</b><span>parents linked</span></div>
+      <div class="stat"><b>${childSet.size}</b><span>children linked</span></div>
+      <div class="stat"><b>${fams.length}</b><span>family groups</span></div>
+      <div class="stat"><b>${levels.reduce((a,b)=>a+b.length,0)}</b><span>ancestors shown</span></div>
+    </div>
+    <div class="section"><h2>Ancestor trail</h2>
+      ${levels.length ? levels.map((lev,i)=>`<div class="ancestor-level"><div class="ancestor-label">${levelNames[i]||`Generation ${i+1}`}</div><div class="family-row">${lev.map(x=>chip(x)).join("")}</div></div>`).join("") : '<span class="empty">No ancestor links recorded</span>'}
+    </div>
+  `;
+  document.querySelectorAll("[data-id]").forEach(b=>b.addEventListener("click",()=>render(b.dataset.id)));
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function searchableText(p) {
+  return [p.name,...(p.aliases||[]),...(p.events||[]).flatMap(e=>[e.date,e.place,e.value])].join(" ").toLowerCase();
+}
+const searchIndex = Object.values(P).map(p=>[p.id, searchableText(p)]);
+const search=document.getElementById("search"), results=document.getElementById("results");
+search.addEventListener("input",()=>{
+  const q=search.value.trim().toLowerCase();
+  if(!q){results.style.display="none";results.innerHTML="";return;}
+  const hits=searchIndex.filter(([,txt])=>txt.includes(q)).slice(0,30);
+  results.innerHTML=hits.map(([id])=>`<div class="result" data-result="${esc(id)}"><b>${esc(P[id].name)}</b><small>${esc(P[id].lifespan||"")}</small></div>`).join("") || '<div class="result">No matches</div>';
+  results.style.display="block";
+  document.querySelectorAll("[data-result]").forEach(x=>x.addEventListener("click",()=>{render(x.dataset.result);search.value="";results.style.display="none";}));
+});
+document.addEventListener("click",e=>{if(!e.target.closest(".search-wrap")) results.style.display="none";});
+document.getElementById("homeBtn").addEventListener("click",()=>render(homeId));
+document.getElementById("backBtn").addEventListener("click",()=>{
+  const prev=historyStack.pop(); if(prev && P[prev]) render(prev,false);
+  else history.back();
+});
+window.addEventListener("hashchange",()=>{
+  const id=decodeURIComponent(location.hash.slice(1)); if(P[id]) render(id,false);
+});
+const start=decodeURIComponent(location.hash.slice(1));
+render(P[start]?start:homeId,false);
+})().catch(error => {
+  console.error(error);
+  const card = document.getElementById("personCard");
+  if (card) card.innerHTML = `<div class="eyebrow">Unable to load tree</div><h1 class="person-name">Something went wrong</h1><p class="life">${String(error.message || error)}</p>`;
+});
+</script>
+</body>
+</html>
