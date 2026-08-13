@@ -4,6 +4,7 @@
   "installCommand": "",
   "builds": [
     { "src": "index.html", "use": "@vercel/static" },
-    { "src": "site/*.txt", "use": "@vercel/static" }
+    { "src": "site/*.txt", "use": "@vercel/static" },
+    { "src": "site/*.b64", "use": "@vercel/static" }
   ]
 }
