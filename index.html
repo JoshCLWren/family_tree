@@ -6,42 +6,70 @@
 <title>Wren Family Tree</title>
 <style>
 :root {
-  --bg:#f4f0e8; --panel:#fffdf8; --ink:#28241f; --muted:#71685d; --line:#d8cec0;
-  --accent:#5f4937; --accent2:#8a6a50; --chip:#eee6db; --shadow:0 10px 30px rgba(59,45,33,.10);
+  --bg:#f3efe5; --panel:#fffdf8; --ink:#243028; --muted:#697269; --line:#cfd5ca;
+  --accent:#315f43; --accent2:#8a633f; --chip:#edf2e9; --branch:#9aae9b;
+  --focus:#f8f2df; --shadow:0 14px 38px rgba(40,58,43,.10);
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:ui-serif,Georgia,Cambria,"Times New Roman",serif;background:var(--bg);color:var(--ink)}
+body{margin:0;font-family:ui-serif,Georgia,Cambria,"Times New Roman",serif;background:radial-gradient(circle at 50% 0,#faf8f0 0,var(--bg) 42rem);color:var(--ink)}
 button,input{font:inherit}
 a{color:inherit}
-header{position:sticky;top:0;z-index:20;background:rgba(244,240,232,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.header-inner{max-width:1200px;margin:auto;padding:18px 22px 14px;display:grid;grid-template-columns:1fr minmax(260px,520px);gap:18px;align-items:center}
+header{position:sticky;top:0;z-index:20;background:rgba(247,244,235,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.header-inner{max-width:1380px;margin:auto;padding:16px 24px 13px;display:grid;grid-template-columns:1fr minmax(260px,520px);gap:18px;align-items:center}
 .brand h1{font-size:clamp(1.45rem,3vw,2.15rem);margin:0;letter-spacing:-.025em}
 .brand p{margin:.3rem 0 0;color:var(--muted);font-size:.92rem}
 .search-wrap{position:relative}
-#search{width:100%;padding:12px 14px 12px 40px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);outline:none;box-shadow:0 2px 12px rgba(59,45,33,.05)}
+#search{width:100%;padding:12px 14px 12px 40px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--ink);outline:none;box-shadow:0 2px 12px rgba(59,45,33,.05)}
+#search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(49,95,67,.12)}
 .search-icon{position:absolute;left:14px;top:11px;color:var(--muted)}
 .results{position:absolute;left:0;right:0;top:50px;max-height:410px;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);display:none}
 .result{padding:10px 12px;border-bottom:1px solid #eee7dc;cursor:pointer}
 .result:hover{background:#f7f1e8}
 .result small{display:block;color:var(--muted);margin-top:2px}
-main{max-width:1200px;margin:auto;padding:22px}
+main{max-width:1380px;margin:auto;padding:22px 24px 28px}
 .privacy{border:1px solid #c8b79f;background:#f0e6d7;border-radius:12px;padding:10px 13px;color:#594839;margin-bottom:18px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:.9rem}
 .privacy.full{background:#f6e9dc;border-color:#ddc0a5}
-.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-.btn{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:8px 12px;cursor:pointer;color:var(--accent)}
-.btn:hover{background:#f8f2e9}
-.grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(280px,.8fr);gap:18px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:20px}
-.hero{padding:24px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.btn{border:1px solid var(--line);background:rgba(255,253,248,.9);border-radius:999px;padding:8px 13px;cursor:pointer;color:var(--accent);font-family:ui-sans-serif,system-ui,sans-serif;font-size:.88rem;font-weight:650}
+.btn:hover{background:var(--chip);border-color:#aebcae}
+.tree-shell{background:rgba(255,253,248,.92);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px}
+.tree-heading{padding:18px 22px 15px;border-bottom:1px solid var(--line);display:flex;align-items:end;justify-content:space-between;gap:18px}
+.tree-heading h2{margin:2px 0 0;font-size:1.35rem}
+.tree-heading p{margin:0;color:var(--muted);font-family:ui-sans-serif,system-ui,sans-serif;font-size:.83rem}
+.tree-viewport{overflow:auto;padding:24px 24px 30px;background-image:radial-gradient(circle,#cfd8cc 1px,transparent 1px);background-size:22px 22px}
+.family-tree{min-width:840px;display:flex;flex-direction:column;align-items:center}
+.generation{position:relative;width:100%;display:flex;justify-content:center;gap:14px;padding:0 12px}
+.generation-label{position:absolute;left:0;top:50%;transform:translateY(-50%);font:700 .67rem ui-sans-serif,system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#829083;writing-mode:vertical-rl;rotate:180deg}
+.generation + .generation,.generation.children{margin-top:42px}
+.generation + .generation::before,.generation.children::before{content:"";position:absolute;width:2px;height:42px;background:var(--branch);left:50%;top:-42px}
+.generation.parents::after,.generation.children::after{content:"";position:absolute;height:2px;background:var(--branch);top:-1px;left:25%;right:25%}
+.tree-group{display:flex;align-items:center;justify-content:center;gap:10px;position:relative}
+.tree-group.couple{padding:0 22px}
+.tree-group.couple::before{content:"";position:absolute;left:8px;right:8px;top:50%;height:2px;background:var(--branch);z-index:0}
+.tree-node{position:relative;z-index:1;width:180px;min-height:76px;border:1px solid #bdc9bc;background:#fffefb;border-radius:14px;padding:12px 13px;text-align:left;cursor:pointer;color:var(--ink);box-shadow:0 5px 16px rgba(40,58,43,.08)}
+.tree-node:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 8px 20px rgba(40,58,43,.14)}
+.tree-node strong{display:block;font-size:.98rem;line-height:1.15;margin-bottom:6px}
+.tree-node small{display:block;color:var(--muted);font:500 .74rem ui-sans-serif,system-ui,sans-serif}
+.tree-node.focus{width:230px;min-height:100px;background:var(--focus);border:2px solid var(--accent);padding:15px 16px}
+.tree-node.focus strong{font-size:1.25rem}
+.tree-node.focus::before{content:"Selected";position:absolute;right:10px;top:8px;color:var(--accent);font:750 .59rem ui-sans-serif,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.tree-node.empty-node{cursor:default;border-style:dashed;background:rgba(255,255,255,.45);box-shadow:none;color:var(--muted)}
+.tree-node.more-node{width:auto;min-width:118px;text-align:center;background:var(--chip)}
+.siblings-strip{margin-top:14px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.siblings-strip .tree-node{width:150px;min-height:62px;padding:10px}
+.siblings-title{color:var(--muted);font:700 .65rem ui-sans-serif,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.1em}
+.detail-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(300px,.8fr);gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px rgba(40,58,43,.07);padding:22px}
+.hero{padding:26px}
 .eyebrow{font-family:ui-sans-serif,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);font-size:.72rem;font-weight:700}
-.person-name{font-size:clamp(2rem,5vw,3.6rem);line-height:.98;margin:.45rem 0 .55rem;letter-spacing:-.045em}
+.person-name{font-size:clamp(2rem,4vw,3.25rem);line-height:1;margin:.45rem 0 .55rem;letter-spacing:-.04em}
 .life{color:var(--muted);font-size:1.05rem}
 .sex{display:inline-block;margin-left:8px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:.75rem;background:var(--chip);padding:3px 7px;border-radius:99px;vertical-align:2px}
 .section{margin-top:22px}
 .section h2{font-size:1.1rem;margin:0 0 10px;padding-bottom:7px;border-bottom:1px solid var(--line)}
 .family-row{display:flex;gap:10px;flex-wrap:wrap}
-.person-chip{border:1px solid var(--line);background:#fbf8f2;border-radius:12px;padding:9px 11px;cursor:pointer;min-width:150px;max-width:100%}
-.person-chip:hover{border-color:#aa927a;background:#f5eee4}
+.person-chip{border:1px solid var(--line);background:#fbfcf7;border-radius:12px;padding:9px 11px;cursor:pointer;min-width:150px;max-width:100%;text-align:left}
+.person-chip:hover{border-color:var(--accent);background:var(--chip)}
 .person-chip strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .person-chip small{color:var(--muted)}
 .event{display:grid;grid-template-columns:100px 1fr;gap:12px;padding:9px 0;border-bottom:1px solid #eee8df}
@@ -58,21 +86,25 @@ main{max-width:1200px;margin:auto;padding:22px}
 .ancestor-level{margin:10px 0 0}
 .ancestor-label{font-family:ui-sans-serif,system-ui,sans-serif;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
 .empty{color:var(--muted);font-style:italic}
-footer{max-width:1200px;margin:0 auto;padding:0 22px 28px;color:var(--muted);font-family:ui-sans-serif,system-ui,sans-serif;font-size:.78rem}
-@media(max-width:780px){
+footer{max-width:1380px;margin:0 auto;padding:0 24px 28px;color:var(--muted);font-family:ui-sans-serif,system-ui,sans-serif;font-size:.78rem}
+@media(max-width:860px){
   .header-inner{grid-template-columns:1fr;padding:14px}
   main{padding:14px}
-  .grid{grid-template-columns:1fr}
+  .detail-grid{grid-template-columns:1fr}
   .hero{padding:18px}
   .event{grid-template-columns:82px 1fr}
+  .tree-heading{align-items:start;flex-direction:column}
+  .tree-heading p{display:none}
+  .tree-viewport{padding:18px 10px 24px}
 }
 @media print{
   header,.toolbar,.privacy,footer{display:none!important}
   body{background:white}
   main{padding:0}
-  .grid{display:block}
+  .detail-grid{display:block}
   .card{box-shadow:none;border:0}
   .side{page-break-before:always}
+  .tree-shell{box-shadow:none}
 }
 </style>
 </head>
@@ -97,7 +129,19 @@ footer{max-width:1200px;margin:0 auto;padding:0 22px 28px;color:var(--muted);fon
     <button class="btn" id="backBtn">← Back</button>
     <button class="btn" onclick="window.print()">Print this person</button>
   </div>
-  <div class="grid">
+  <section class="tree-shell">
+    <div class="tree-heading">
+      <div>
+        <div class="eyebrow">Family connections</div>
+        <h2 id="treeTitle">Family tree</h2>
+      </div>
+      <p>Choose any person to move through the tree</p>
+    </div>
+    <div class="tree-viewport">
+      <div class="family-tree" id="familyTree"></div>
+    </div>
+  </section>
+  <div class="detail-grid">
     <section class="card hero" id="personCard"></section>
     <aside class="card side" id="sideCard"></aside>
   </div>
@@ -128,9 +172,37 @@ function getFamiliesAsSpouse(id) {
   const p=P[id]; if(!p) return [];
   return (p.fams||[]).map(fid=>F[fid]).filter(Boolean);
 }
+function getChildren(id) {
+  const out=[];
+  for(const f of getFamiliesAsSpouse(id)) for(const child of f.children||[]) if(P[child]) out.push(child);
+  return [...new Set(out)];
+}
+function getSpouses(id) {
+  const out=[];
+  for(const f of getFamiliesAsSpouse(id)) {
+    const spouse=f.husb===id?f.wife:f.husb;
+    if(spouse && P[spouse]) out.push(spouse);
+  }
+  return [...new Set(out)];
+}
+function getSiblings(id) {
+  const out=[];
+  for(const parent of getParents(id)) for(const child of getChildren(parent)) if(child!==id && P[child]) out.push(child);
+  return [...new Set(out)];
+}
 function chip(id, label="") {
   const p=P[id]; if(!p) return "";
   return `<button class="person-chip" data-id="${esc(id)}"><strong>${esc(p.name)}</strong><small>${esc(label || p.lifespan || "")}</small></button>`;
+}
+function treeNode(id, kind="", label="") {
+  if(!id || !P[id]) return '<div class="tree-node empty-node"><strong>Not recorded</strong><small>No family record</small></div>';
+  const p=P[id];
+  return `<button class="tree-node ${kind}" data-id="${esc(id)}"><strong>${esc(p.name)}</strong><small>${esc(label || p.lifespan || "Dates not recorded")}</small></button>`;
+}
+function treeNodes(ids, limit=8) {
+  const shown=ids.slice(0,limit).map(id=>treeNode(id)).join("");
+  const more=ids.length>limit?`<div class="tree-node more-node"><strong>+${ids.length-limit} more</strong><small>See details below</small></div>`:"";
+  return shown+more;
 }
 function formatEvent(ev) {
   const bits=[];
@@ -159,6 +231,8 @@ function render(id, push=true) {
   if(push && location.hash && decodeURIComponent(location.hash.slice(1)) !== id) historyStack.push(decodeURIComponent(location.hash.slice(1)));
   location.hash = encodeURIComponent(id);
   const p=P[id], parents=getParents(id), fams=getFamiliesAsSpouse(id);
+  const grandparents=[...new Set(parents.flatMap(getParents))];
+  const spouses=getSpouses(id), siblings=getSiblings(id), children=getChildren(id);
   let spouseHtml="", childrenHtml="";
   const childSet=new Set();
   for(const f of fams) {
@@ -167,6 +241,30 @@ function render(id, push=true) {
     for(const c of f.children||[]) if(P[c]) childSet.add(c);
   }
   for(const c of childSet) childrenHtml += chip(c);
+
+  document.getElementById("treeTitle").textContent = `${p.name}'s family`;
+  document.getElementById("familyTree").innerHTML = `
+    <div class="generation grandparents">
+      <span class="generation-label">Grandparents</span>
+      ${grandparents.length?treeNodes(grandparents,4):treeNode(null)}
+    </div>
+    <div class="generation parents">
+      <span class="generation-label">Parents</span>
+      <div class="tree-group couple">${parents.length?treeNodes(parents,2):treeNode(null)}</div>
+    </div>
+    <div class="generation current">
+      <span class="generation-label">This generation</span>
+      <div class="tree-group couple">
+        ${treeNode(id,"focus")}
+        ${spouses.length?treeNodes(spouses,4):'<div class="tree-node empty-node"><strong>No partner linked</strong><small>In this family record</small></div>'}
+      </div>
+    </div>
+    ${siblings.length?`<div class="siblings-strip"><span class="siblings-title">Siblings</span>${treeNodes(siblings,6)}</div>`:""}
+    <div class="generation children">
+      <span class="generation-label">Children</span>
+      ${children.length?treeNodes(children,8):'<div class="tree-node empty-node"><strong>No children linked</strong><small>In this family record</small></div>'}
+    </div>
+  `;
 
   const events=(p.events||[]).filter(e=>e.type!=="Event" || e.date || e.place || e.value);
   const aliases=(p.aliases||[]).length ? `<div class="section"><h2>Also recorded as</h2><div>${p.aliases.map(x=>`<span class="sex">${esc(x)}</span>`).join(" ")}</div></div>` : "";
@@ -177,9 +275,6 @@ function render(id, push=true) {
     <h1 class="person-name">${esc(p.name)}</h1>
     <div class="life">${esc(p.lifespan || "")} ${p.sex ? `<span class="sex">${p.sex==="M"?"Male":p.sex==="F"?"Female":esc(p.sex)}</span>`:""}</div>
     ${aliases}
-    <div class="section"><h2>Parents</h2><div class="family-row">${parents.length?parents.map(x=>chip(x)).join(""):'<span class="empty">No parents recorded</span>'}</div></div>
-    <div class="section"><h2>Spouse / partner</h2><div class="family-row">${spouseHtml || '<span class="empty">No spouse recorded</span>'}</div></div>
-    <div class="section"><h2>Children</h2><div class="family-row">${childrenHtml || '<span class="empty">No children recorded</span>'}</div></div>
     <div class="section"><h2>Life events</h2>${events.length?events.map(formatEvent).join(""):'<span class="empty">No life events recorded</span>'}</div>
     ${notes}
   `;
@@ -190,8 +285,8 @@ function render(id, push=true) {
     <h3>Tree at a glance</h3>
     <div class="stats">
       <div class="stat"><b>${parents.length}</b><span>parents linked</span></div>
-      <div class="stat"><b>${childSet.size}</b><span>children linked</span></div>
-      <div class="stat"><b>${fams.length}</b><span>family groups</span></div>
+      <div class="stat"><b>${children.length}</b><span>children linked</span></div>
+      <div class="stat"><b>${siblings.length}</b><span>siblings linked</span></div>
       <div class="stat"><b>${levels.reduce((a,b)=>a+b.length,0)}</b><span>ancestors shown</span></div>
     </div>
     <div class="section"><h2>Ancestor trail</h2>
